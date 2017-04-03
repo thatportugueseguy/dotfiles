@@ -12,13 +12,35 @@ alias lgrep="l | grep"
 alias lagrep="la | grep"
 
 #git
-source .gitaliases
+alias gs="g s"
+alias ga="g add"
+alias gaa="g add -A";
+alias gp="g pull";
+alias co="checkout";
+
+#npm
+alias nr="npm run"
+alias nrb="npm run build"
+alias nrs="npm run start"
+alias start="npm run start"
+
+# trainline aliases
+alias lbt="lerna bootstrap"
+alias jobdone="git fetch && git rebase -i origin/master && lbt && gpf"
+alias rebaselbt="git rebase --continue && lbt && gpf"
+alias storybook="nr storybook"
 
 # Shortcuts
 alias p="cd ~/projects"
 alias g="git"
 alias h="history"
+alias h="history"
+alias gg="git grep"
+alias nrs="npm start"
 alias aliases="vim ~/.aliases && source ~/.aliases"
+alias functions="vim ~/.functions && source ~/.functions"
+alias lgrep="l | grep"
+alias lagrep="la | grep"
 
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then # GNU `ls`

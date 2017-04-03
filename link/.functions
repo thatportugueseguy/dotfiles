@@ -1,5 +1,48 @@
 #!/usr/bin/env bash
 
+# GIT ALIASES
+# git add all and commit
+function gac {
+	gaa
+	gc "$@";
+	gs;
+}
+#git commit - adds branch automatically an no quotes needed
+function gc {
+	local branch="[$(git branch | sed -n -e 's/^\* \(.*\)/\1/p')]";
+	if [ $branch = "[master]" ]
+	then
+		branch=""
+	fi
+
+	local commitMsg="$@";
+	g commit -m "${branch} ${commitMsg}";
+	gs;
+}
+
+#git commit amend
+function goops {
+	git commit -a --amend;
+	gs;
+}
+#git checkout into branch. if the branch exists checkout without -b, otherwise, create it
+function checkout {
+	if [ $1 = "-" ]
+	then
+		git checkout -;
+	else
+		local branches=$(git branches | grep $1 | wc -l);
+
+		git checkout $([ $branches -gt 0 ] && echo '' || echo '-b') "$1";
+	fi
+}
+
+# git push force with lease
+function gpf() {
+	local branch=$(git branch | sed -n -e 's/^\* \(.*\)/\1/p');
+	git push --force-with-lease "$@" origin ${branch};
+}
+
 # Create a new directory and enter it
 function mkd() {
 	mkdir -p "$@" && cd "$_";
@@ -75,15 +118,6 @@ function dataurl() {
 	echo "data:${mimeType};base64,$(openssl base64 -in "$1" | tr -d '\n')";
 }
 
-# Create a git.io short URL
-function gitio() {
-	if [ -z "${1}" -o -z "${2}" ]; then
-		echo "Usage: \`gitio slug url\`";
-		return 1;
-	fi;
-	curl -i https://git.io/ -F "url=${2}" -F "code=${1}";
-}
-
 # Start an HTTP server from a directory, optionally specifying the port
 function server() {
 	local port="${1:-8000}";
@@ -91,15 +125,6 @@ function server() {
 	# Set the default Content-Type to `text/plain` instead of `application/octet-stream`
 	# And serve everything as UTF-8 (although not technically correct, this doesn’t break anything for binary files)
 	python -c $'import SimpleHTTPServer;\nmap = SimpleHTTPServer.SimpleHTTPRequestHandler.extensions_map;\nmap[""] = "text/plain";\nfor key, value in map.items():\n\tmap[key] = value + ";charset=UTF-8";\nSimpleHTTPServer.test();' "$port";
-}
-
-# Start a PHP server from a directory, optionally specifying the port
-# (Requires PHP 5.4.0+.)
-function phpserver() {
-	local port="${1:-4000}";
-	local ip=$(ipconfig getifaddr en1);
-	sleep 1 && open "http://${ip}:${port}/" &
-	php -S "${ip}:${port}";
 }
 
 # Compare original and gzipped file size
@@ -184,26 +209,6 @@ function getcertnames() {
 	else
 		echo "ERROR: Certificate not found.";
 		return 1;
-	fi;
-}
-
-# `s` with no arguments opens the current directory in Sublime Text, otherwise
-# opens the given location
-function s() {
-	if [ $# -eq 0 ]; then
-		subl .;
-	else
-		subl "$@";
-	fi;
-}
-
-# `a` with no arguments opens the current directory in Atom Editor, otherwise
-# opens the given location
-function a() {
-	if [ $# -eq 0 ]; then
-		atom .;
-	else
-		atom "$@";
 	fi;
 }
 
