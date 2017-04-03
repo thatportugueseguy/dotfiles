@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+#git
+alias gs="g s"
+alias ga="g add"
+alias gaa="g add -A";
+alias gp="g pull";
+alias co="checkout";
+
+
