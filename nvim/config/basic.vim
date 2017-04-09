@@ -47,7 +47,7 @@ set noswapfile
 set number
 
 " Persistent undo
-set undodir=/Users/ze/Projects/playground/dotfiles/config/nvim/undodir
+set undodir=$HOME/.vim/undo
 set undofile
 
 " Open new split panes to right and bottom, which feels more natural

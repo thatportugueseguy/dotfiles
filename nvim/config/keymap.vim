@@ -24,14 +24,13 @@ let g:lt_quickfix_list_toggle_map = '<leader>q'
 " nnoremap <Leader>n :VimFiler<CR>
 " NerdTree
 nnoremap <Leader>n :NERDTreeToggle<CR>
+nnoremap <Leader>f :NERDTreeFind<CR>
 
 " remove highlight when pressing enter
 nnoremap <CR> :nohlsearch<CR>
 " fzf
 nnoremap <Leader>o :GFiles<CR>
 
-" Agerium
-nnoremap <Leader>f :call Agerium()<CR>
 
 " Easymotion Shortcuts
 map n <Plug>(easymotion-next)

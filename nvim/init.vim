@@ -24,6 +24,10 @@ call plug#begin('~/.config/nvim/plugins')
   Plug 'tpope/vim-fugitive'
   Plug 'Valloric/ListToggle'
 
+	" Undo Tree
+	Plug 'mbbill/undotree'
+	Plug 'sjl/gundo.vim'
+
   " JS Syntax
 	Plug 'pangloss/vim-javascript'
   Plug 'leafgarland/typescript-vim'
