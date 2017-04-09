@@ -53,7 +53,7 @@ create_symlink() {
 	# if file doesn't exist, make the the link
 	# if link already exists and links to the right file, let us know it's done
 	# if file exists, ask for confirmation to delete file and create link
-	if [ ! -e "$targetFile" ] || [ ! -d "$targetFile" ]; then
+	if [ ! -e "$targetFile" ]; then
 		execute "ln -fs $sourceFile $targetFile" "$targetFile → $sourceFile"
 	elif [ "$(readlink "$targetFile")" == "$sourceFile" ]; then
 		print_success "$targetFile → $sourceFile"
@@ -68,7 +68,7 @@ create_symlink() {
 	fi
 }
 
-SCRIPT_DIR=`pwd -P`
+SCRIPT_DIR=$(pwd -P)
 LINK_DIR="$SCRIPT_DIR/link"
 DOTFILES_BACKUP_DIR="$HOME/dotfiles_backup"
 
@@ -86,9 +86,10 @@ declare -a FILES_TO_BACKUP=(
 )
 
 i=''
-print_info "moving the existing dotfiles from ~ to $DOTFILES_BACKUP_DIR"
+print_info "moving existing dotfiles from $HOME to $DOTFILES_BACKUP_DIR"
 for i in ${FILES_TO_BACKUP[@]}; do
-	cp ~/.${i##*/} $DOTFILES_BACKUP_DIR
+	cp "$HOME/.${i##*/}" $DOTFILES_BACKUP_DIR
+	print_success "$HOME/.${i##*/} → $DOTFILES_BACKUP_DIR/${i##*/}"
 done
 print_success "done"
 
@@ -98,16 +99,27 @@ i=''
 
 print_info "creating the dotfiles symlinks"
 for i in ${FILES_TO_BACKUP[@]}; do
-	sourceFile="$(pwd)/link/$i"
+	sourceFile="$LINK_DIR/$i"
 	# remove unexpected chars on the filename.
 	targetFile="$HOME/.$(printf "%s" "$i" | sed "s/.*\/\(.*\)/\1/g")"
 
 	create_symlink "$targetFile" "$sourceFile"
-
 done
+print_success "done"
 
-print_info "linking ~/.config/nvim"
-create_symlink "$HOME/.config/nvim" "$(pwd)/nvim"
+nvimFile="$HOME/.config/nvim"
+print_info "linking $nvimFile"
+if [ -e $nvimFile ]; then
+	print_info "moving existing $nvimFile to $DOTFILES_BACKUP_DIR"
+	if [ -e "$DOTFILES_BACKUP_DIR/nvim" ]; then
+		ask_for_confirmation "'$DOTFILES_BACKUP_DIR/nvim' already exists, do you want to overwrite it?"
+		if answer_is_yes; then
+			rm -rf "$DOTFILES_BACKUP_DIR/nvim"
+			execute "cp -R $nvimFile $DOTFILES_BACKUP_DIR" "$nvimFile → $DOTFILES_BACKUP_DIR/nvim"
+		else
+			print_info "$nvimFile not copied"
+		fi
+	fi
+fi
 
-#TODO unset everything
-unset FILES_TO_BACKUP
+create_symlink "$nvimFile" "$SCRIPT_DIR/nvim"
