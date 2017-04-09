@@ -26,7 +26,7 @@ source ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 # Load the shell dotfiles, and then some:
 # * ~/.path can be used to extend `$PATH`.
 # * ~/.extra can be used for other settings you don’t want to commit.
-for file in ~/.{aliases,functions}; do
+for file in ~/.{aliases,functions,gitcredentials}; do
 	[ -r "$file" ] && [ -f "$file" ] && source "$file";
 done;
 unset file;
@@ -77,31 +77,6 @@ source $ZSH/oh-my-zsh.sh
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
-if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR='vim'
-else
-  export EDITOR='nvim'
-fi
-
-# Search for neovim, fallback to vim
-if which nvim >/dev/null; then
-  export VISUAL="$(which nvim)"
-elif which vim >/dev/null; then
-  export VISUAL="$(which vim)"
-else
-  export VISUAL="vi"
-fi
-
-export EDITOR="$VISUAL"
-
-# Just use one editor
-alias nvim="$EDITOR"
-alias vim="$EDITOR"
-alias vi="$EDITOR"
-alias edit="$EDITOR"
-
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh

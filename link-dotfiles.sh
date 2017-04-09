@@ -82,14 +82,17 @@ declare -a FILES_TO_BACKUP=(
   'aliases'
   'functions'
   'gitconfig'
+	'gitcredentials'
   'zshrc'
 )
 
 i=''
 print_info "moving existing dotfiles from $HOME to $DOTFILES_BACKUP_DIR"
 for i in ${FILES_TO_BACKUP[@]}; do
-	cp "$HOME/.${i##*/}" $DOTFILES_BACKUP_DIR
-	print_success "$HOME/.${i##*/} → $DOTFILES_BACKUP_DIR/${i##*/}"
+	if [ -e "$HOME/.${i##*/}" ]; then
+		cp "$HOME/.${i##*/}" $DOTFILES_BACKUP_DIR
+		print_success "$HOME/.${i##*/} → $DOTFILES_BACKUP_DIR/${i##*/}"
+	fi
 done
 print_success "done"
 
@@ -108,9 +111,8 @@ done
 print_success "done"
 
 nvimFile="$HOME/.config/nvim"
-print_info "linking $nvimFile"
 if [ -e $nvimFile ]; then
-	print_info "moving existing $nvimFile to $DOTFILES_BACKUP_DIR"
+	print_info "backing up existing $nvimFile to $DOTFILES_BACKUP_DIR"
 	if [ -e "$DOTFILES_BACKUP_DIR/nvim" ]; then
 		ask_for_confirmation "'$DOTFILES_BACKUP_DIR/nvim' already exists, do you want to overwrite it?"
 		if answer_is_yes; then
@@ -119,7 +121,10 @@ if [ -e $nvimFile ]; then
 		else
 			print_info "$nvimFile not copied"
 		fi
+	else
+		execute "cp -R $nvimFile $DOTFILES_BACKUP_DIR" "$nvimFile → $DOTFILES_BACKUP_DIR/nvim"
 	fi
 fi
 
+print_info "linking $nvimFile to $SCRIPT_DIR/nvim"
 create_symlink "$nvimFile" "$SCRIPT_DIR/nvim"

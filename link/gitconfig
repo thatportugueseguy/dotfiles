@@ -191,11 +191,9 @@
 [url "git://gist.github.com/"]
 
 	insteadOf = "gist:"
-[user]
-	name = José Nogueira
-	email = Ze.Nogueira@thetrainline.com
-[gpg]
-	program = gpg2
 
 [grep]
   linenumber = true
+[user]
+	name = jose nogueira
+	email = ze@thatportugueseguy.com

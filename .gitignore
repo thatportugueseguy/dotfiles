@@ -1,5 +1,8 @@
 todo
 
+#git credentials
+link/gitcredentials
+
 #nvim plugins and undodir
 nvim/plugins
 nvim/undodir
