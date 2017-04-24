@@ -22,6 +22,7 @@ export EDITOR="$VISUAL"
 alias nvim="$EDITOR"
 alias vim="$EDITOR"
 alias vi="$EDITOR"
+alias bim="$EDITOR"
 alias edit="$EDITOR"
 
 # Easier navigation: .., ..., ...., ....., ~ and -
