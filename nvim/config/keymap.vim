@@ -22,9 +22,13 @@ let g:lt_quickfix_list_toggle_map = '<leader>q'
 
 " VimFiler
 " nnoremap <Leader>n :VimFiler<CR>
+
 " NerdTree
 nnoremap <Leader>n :NERDTreeToggle<CR>
 nnoremap <Leader>f :NERDTreeFind<CR>
+
+" IndentLine
+nnoremap <Leader>ig :IndentLinesToggle<CR>
 
 " remove highlight when pressing enter
 nnoremap <CR> :nohlsearch<CR>
@@ -52,6 +56,12 @@ map <Down> <Plug>(easymotion-j)
 map <Left> <Plug>(easymotion-linebackward)
 map <Right> <Plug>(easymotion-lineforward)
 
+" Better split switching (Ctrl-j, Ctrl-k, Ctrl-h, Ctrl-l)
+map <C-j> <C-W>j
+map <C-k> <C-W>k
+map <C-h> <C-W>h
+map <C-L> <C-W>l
+
 " Gif config
 nmap s <Plug>(easymotion-s)
 
@@ -59,14 +69,11 @@ nmap s <Plug>(easymotion-s)
 nnoremap <leader>h :bprevious<CR>
 nnoremap <leader>l :bnext<CR>
 
-" Go to last used buffer
-nnoremap <leader>j <C-^>
-
 " Close a buffer
 nnoremap <leader>k :bp <BAR> bd #<CR>
 
 " List buffers
-nnoremap <leader>b :Buffers<CR>
+nnoremap <leader>j :Buffers<CR>
 
 " List buffer commits
 nnoremap <leader>c :BCommits<CR>

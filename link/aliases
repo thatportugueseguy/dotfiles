@@ -29,6 +29,7 @@ alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
+alias -- -="cd -"
 
 #utilities
 alias rf="rm -rf"
@@ -40,10 +41,13 @@ alias g="git"
 alias gg="git grep -i"
 alias gs="g s"
 alias ga="g add"
-alias gaa="g add -A";
+alias gaa="g add -A"
+alias gap="g add -p"
 alias gp="g pull";
 alias co="checkout";
 alias gconf="vim ~/.gitconfig"
+# went for a longer name just to be sure :D
+alias gdelbranches="git branch | grep -v "master" | xargs git branch -D"
 
 #npm
 alias nr="npm run"
