@@ -1,22 +1,20 @@
 #!/usr/bin/env bash
 
-# Preferred editor for local and remote sessions
-if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR='vim'
-else
-  export EDITOR='nvim'
-fi
-
 # Search for neovim, fallback to vim
 if which nvim >/dev/null; then
-  export VISUAL="$(which nvim)"
+  export VISUAL="nvim"
 elif which vim >/dev/null; then
-  export VISUAL="$(which vim)"
+  export VISUAL="vim"
 else
   export VISUAL="vi"
 fi
 
 export EDITOR="$VISUAL"
+
+# Preferred editor for local and remote sessions
+if [[ -n $SSH_CONNECTION ]]; then
+  export EDITOR='vim'
+fi
 
 # Just use one editor
 alias nvim="$EDITOR"

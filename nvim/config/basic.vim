@@ -5,6 +5,9 @@ set ts=2
 set shiftwidth=2
 set expandtab
 
+" allow changing buffers without saving
+set confirm
+
 " Max Width
 set textwidth=0
 
@@ -32,11 +35,12 @@ set ruler
 set laststatus=2
 set statusline=%F%m%r%h%w\ %{fugitive#statusline()}\ [%l,%c]\ [%L,%p%%]
 
+" autoread
+set autoread
+au CursorHold * checktime
+
 " Scrolling
 set scrolloff=2
-
-" No code folding
-set nofoldenable
 
 " No Backup
 set nobackup

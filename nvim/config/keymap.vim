@@ -57,14 +57,14 @@ map <Left> <Plug>(easymotion-linebackward)
 map <Right> <Plug>(easymotion-lineforward)
 
 " Better split switching (Ctrl-j, Ctrl-k, Ctrl-h, Ctrl-l)
-map <C-j> <C-W>j
-map <C-k> <C-W>k
+map <C-j> <C-W>j0
+map <C-k> <C-W>k0
 " OSX includes wrong terminfo information for xterm-256color(used by iterm)
 " needs fix
 " https://github.com/neovim/neovim/issues/2048#issuecomment-78045837
 " (for c-h
-map <C-h> <C-W>h
-map <C-l> <C-W>l
+map <C-h> <C-W>h0
+map <C-l> <C-W>l0
 " Gif config
 nmap s <Plug>(easymotion-s)
 

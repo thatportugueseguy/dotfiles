@@ -15,8 +15,21 @@ function gc {
 		branch=""
 	fi
 
+	local skipVerify=false
+	if [ $1 = "-n" ]
+	then
+		skipVerify=true
+		shift
+	fi
+
 	local commitMsg="$@";
-	g commit -m "${branch} ${commitMsg}";
+
+	if [ "$skipVerify" = "true" ]
+	then
+		g commit -m "${branch} ${commitMsg}" --no-verify;
+	else
+		g commit -m "${branch} ${commitMsg}";
+	fi
 	gs;
 }
 

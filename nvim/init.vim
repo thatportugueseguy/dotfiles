@@ -24,6 +24,7 @@ call plug#begin('~/.config/nvim/plugins')
   " Tools
   Plug 'tpope/vim-fugitive'
   Plug 'Valloric/ListToggle'
+	Plug 'scrooloose/nerdcommenter'
 
 	" Undo Tree
 	Plug 'mbbill/undotree'
