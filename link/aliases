@@ -45,6 +45,7 @@ alias gap="g add -p"
 alias gp="g pull";
 alias co="checkout";
 alias gconf="vim ~/.gitconfig"
+alias gn="g new"
 # went for a longer name just to be sure :D
 alias gdelbranches="git branch | grep -v "master" | xargs git branch -D"
 
