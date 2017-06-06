@@ -41,6 +41,7 @@ au CursorHold * checktime
 
 " Scrolling
 set scrolloff=2
+set mouse=a
 
 " No Backup
 set nobackup

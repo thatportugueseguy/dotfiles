@@ -197,3 +197,5 @@
 [user]
 	name = José Nogueira
 	email = Ze.Nogueira@thetrainline.com
+[gpg]
+	program = /usr/local/bin/gpg
