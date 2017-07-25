@@ -56,7 +56,7 @@ function checkout {
 	then
 		git checkout -;
 	else
-		git checkout DWEB-"$1";
+		git checkout DWEB-"$1" && npm run clean -- --yes && npm run bootstrap;
 	fi
 }
 # git push force with lease
