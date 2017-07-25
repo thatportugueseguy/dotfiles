@@ -415,12 +415,12 @@ find "${HOME}/Library/Application Support/Dock" -name "*-*.db" -maxdepth 1 -dele
 # 12: Notification Center
 
 # Top left screen corner → Mission Control
-defaults write com.apple.dock wvous-tl-corner -int 2
-defaults write com.apple.dock wvous-tl-modifier -int 0
+#defaults write com.apple.dock wvous-tl-corner -int 2
+#defaults write com.apple.dock wvous-tl-modifier -int 0
 
 # Top right screen corner → Desktop
-defaults write com.apple.dock wvous-tr-corner -int 4
-defaults write com.apple.dock wvous-tr-modifier -int 0
+#defaults write com.apple.dock wvous-tr-corner -int 4
+#defaults write com.apple.dock wvous-tr-modifier -int 0
 
 # Bottom left screen corner → Put Display to Sleep
 defaults write com.apple.dock wvous-bl-corner -int 10
@@ -747,6 +747,13 @@ defaults write ~/Library/Preferences/org.gpgtools.gpgmail SignNewEmailsByDefault
 # Expand the print dialog by default
 defaults write com.operasoftware.Opera PMPrintingExpandedStateForPrint2 -boolean true
 defaults write com.operasoftware.OperaDeveloper PMPrintingExpandedStateForPrint2 -boolean true
+
+###############################################################################
+# Add Vim fix for ctrl + h                                                    #
+###############################################################################
+infocmp $TERM | sed 's/kbs=^[hH]/kbs=\\177/' > $TERM.ti
+tic $TERM.ti
+rm $TERM.ti
 
 ###############################################################################
 # Kill affected applications                                                  #
