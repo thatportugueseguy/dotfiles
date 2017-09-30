@@ -37,6 +37,9 @@ call plug#begin('~/.config/nvim/plugins')
   Plug 'mxw/vim-jsx'
   Plug 'ianks/vim-tsx'
 
+	" Reason
+	Plug 'reasonml/vim-reason'
+
   " TypeScript
   Plug 'Quramy/tsuquyomi', { 'for': 'typescript' }
 

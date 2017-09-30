@@ -4,7 +4,7 @@
 # git add all and commit
 function gac {
 	gaa
-	gc "$@";
+	gcom "$@";
 	gs;
 }
 #git commit - adds branch automatically an no quotes needed
@@ -33,6 +33,25 @@ function gc {
 	gs;
 }
 
+function gcom {
+	local skipVerify=false
+	if [ $1 = "-n" ]
+	then
+		skipVerify=true
+		shift
+	fi
+
+	local commitMsg="$@";
+
+	if [ "$skipVerify" = "true" ]
+	then
+		g commit -m "${commitMsg}" --no-verify;
+	else
+		g commit -m "${commitMsg}";
+	fi
+	gs;
+}
+
 #git commit amend
 function goops {
 	git commit -a --amend;
@@ -56,7 +75,7 @@ function checkout {
 	then
 		git checkout -;
 	else
-		git checkout DWEB-"$1" && npm run clean -- --yes && npm run bootstrap;
+		git checkout "$1" && yarn
 	fi
 }
 # git push force with lease
@@ -72,6 +91,17 @@ function gpn() {
 # Create a new directory and enter it
 function mkd() {
 	mkdir -p "$@" && cd "$_";
+}
+
+#npm specific
+function nbin() {
+	if [ -d ./node_modules/.bin ]; then
+		local app="$1"
+		shift
+		(exec "./node_modules/.bin/${app}" "$@")
+	else
+		echo "Err: Not in node.js project folder.";
+	fi;
 }
 
 # Change working directory to the top-most Finder window location

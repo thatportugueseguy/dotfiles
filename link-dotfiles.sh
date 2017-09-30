@@ -82,6 +82,7 @@ declare -a FILES_TO_BACKUP=(
   'aliases'
   'functions'
   'gitconfig'
+  'gitignore'
 	'gitcredentials'
   'zshrc'
 )

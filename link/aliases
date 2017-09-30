@@ -48,8 +48,10 @@ alias gp="g pull";
 alias co="checkout";
 alias gconf="vim ~/.gitconfig"
 alias gn="g new"
+alias gaoops="gaa && goops"
 # went for a longer name just to be sure :D
 alias gdelbranches="git branch | grep -v "master" | xargs git branch -D"
+alias greb="git fetch && git rebase origin/master"
 
 #npm
 alias nr="npm run"
@@ -62,6 +64,7 @@ alias lbt="lerna bootstrap"
 alias jobdone="git fetch && git rebase -i origin/master && lbt && gpf"
 alias rebaselbt="git rebase --continue && lbt && gpf"
 alias storybook="nr storybook"
+alias storybook-native="nr storybook-native"
 
 # Shortcuts
 alias p="cd ~/projects"
@@ -69,6 +72,7 @@ alias h="history"
 alias h="history"
 alias nrs="npm start"
 alias aliases="vim ~/.aliases && source ~/.aliases"
+alias gitconf="vim ~/.gitconfig"
 alias functions="vim ~/.functions && source ~/.functions"
 alias conf="vim ~/.zshrc && source ~/.zshrc"
 alias lgrep="l | grep"

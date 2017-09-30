@@ -4,6 +4,7 @@
 	master = checkout master
 	# View abbreviated SHA, description, and history graph of the latest 20 commits
 	l = log --pretty=oneline -n 20 --graph --abbrev-commit
+	ll = log -1
 	g = grep
   ll = log -1
 
@@ -39,8 +40,8 @@
 	#trainline formatted new branch
 	new = "! new_ticket() { \
             git fetch origin master; \
-            git checkout -b DWEB-$1 origin/master; \
-            git push --set-upstream origin DWEB-$1; \
+            git checkout -b $1 origin/master; \
+            git push --set-upstream origin $1; \
         }; \
         new_ticket"
 
@@ -96,7 +97,7 @@
 [core]
 
 	# Use custom `.gitignore` and `.gitattributes`
-	excludesfile = ~/.gitignore
+	excludesfile = /Users/ze/.gitignore
 	attributesfile = ~/.gitattributes
 
 	# Treat spaces before tabs and all kinds of trailing whitespace as an error
