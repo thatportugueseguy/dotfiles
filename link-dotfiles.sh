@@ -1,6 +1,8 @@
 #!/bin/bash
 #TODO
 # Make sure the script is run from the right directory.
+# nvim simlink needs dir to be created fist or won't be able to link
+# can simlink create necessary subdirs?
 
 # util functions
 answer_is_yes() {
