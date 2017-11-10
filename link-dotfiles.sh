@@ -1,8 +1,6 @@
 #!/bin/bash
 #TODO
 # Make sure the script is run from the right directory.
-# nvim simlink needs dir to be created fist or won't be able to link
-# can simlink create necessary subdirs?
 
 # util functions
 answer_is_yes() {
@@ -67,7 +65,7 @@ create_symlink() {
 			rm -rf "$targetFile"
 			execute "ln -fs $sourceFile $targetFile" "$targetFile → $sourceFile"
 		else
-			print_error "$targetFile → $sourceFile"
+			print_error "Symlink not created"
 		fi
 	fi
 }
@@ -88,6 +86,7 @@ declare -a FILES_TO_BACKUP=(
   'gitconfig'
   'gitignore'
 	'gitcredentials'
+	'variables'
   'zshrc'
 )
 
@@ -116,19 +115,25 @@ done
 print_success "done"
 
 nvimFile="$HOME/.config/nvim"
+
+# create neovim dir
 if [ -e $nvimFile ]; then
-	print_info "backing up existing $nvimFile to $DOTFILES_BACKUP_DIR"
-	if [ -e "$DOTFILES_BACKUP_DIR/nvim" ]; then
-		ask_for_confirmation "'$DOTFILES_BACKUP_DIR/nvim' already exists, do you want to overwrite it?"
-		if answer_is_yes; then
-			rm -rf "$DOTFILES_BACKUP_DIR/nvim"
-			execute "cp -R $nvimFile $DOTFILES_BACKUP_DIR" "$nvimFile → $DOTFILES_BACKUP_DIR/nvim"
-		else
-			print_info "$nvimFile not copied"
-		fi
-	else
+	mkdir -p nvimFile
+	print_success "done"
+fi
+
+# add neovim :)
+print_info "backing up existing $nvimFile to $DOTFILES_BACKUP_DIR"
+if [ -e "$DOTFILES_BACKUP_DIR/nvim" ]; then
+	ask_for_confirmation "'$DOTFILES_BACKUP_DIR/nvim' already exists, do you want to overwrite it?"
+	if answer_is_yes; then
+		rm -rf "$DOTFILES_BACKUP_DIR/nvim"
 		execute "cp -R $nvimFile $DOTFILES_BACKUP_DIR" "$nvimFile → $DOTFILES_BACKUP_DIR/nvim"
+	else
+		print_info "$nvimFile not copied"
 	fi
+else
+	execute "cp -R $nvimFile $DOTFILES_BACKUP_DIR" "$nvimFile → $DOTFILES_BACKUP_DIR/nvim"
 fi
 
 print_info "linking $nvimFile to $SCRIPT_DIR/nvim"
