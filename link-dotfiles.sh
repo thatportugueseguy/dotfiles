@@ -1,6 +1,4 @@
 #!/bin/bash
-#TODO
-# Make sure the script is run from the right directory.
 
 # util functions
 answer_is_yes() {

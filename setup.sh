@@ -8,6 +8,7 @@ cd $SCRIPTPATH
 # install homebrew
 # apparently on macs we can't git clone without installing xcode
 # so better to install homebrew, then install git and clone the repo..
+echo "Running this script assumes homebrew is installed, and you runned brew git as well"
 
 
 # run brew bundle from the configs dir

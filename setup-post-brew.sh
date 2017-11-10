@@ -6,26 +6,29 @@ echo "THIS NEEDS TO BE RUN ON ITERM OR IT WILL ERROR AND EXIT TERMINAL.."
 # https://stackoverflow.com/questions/4774054/reliable-way-for-a-bash-script-to-get-the-full-path-to-itself
 SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
 cd $SCRIPTPATH
-./.macos
 
 #profile karabiner
-mkdir -p ~/.karabiner
-cp configs/karabiner/karabiner.json ~/.karabiner/karabiner.json
+# doesn't work too well needs to find a solution...
+# mkdir -p ~/.karabiner
+# cp configs/karabiner/karabiner.json ~/.karabiner/karabiner.json
+
+# install ohmyzsh
+sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+
+# powerlevel9k install + powerline fonts
+git clone https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/themes/powerlevel9k
+git clone https://github.com/powerline/fonts.git ~/.fonts
+~/.fonts/install.sh
 
 # link dotfiles
 ./link-dotfiles.sh
 
-
-# powerlevel9k install + powerline fonts
-git clone https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/themes/powerlevel9k
-curl -O https://github.com/powerline/fonts/blob/master/Meslo%20Slashed/Meslo%20LG%20M%20Regular%20for%20Powerline.ttf
-
-# zsh autosuggestions?
-git clone git://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/plugins/zsh-autosuggestions
-
 #change shell to zsh
 echo "Changing shell to Zshell"
 chsh -s /bin/zsh
+
+# set defaults for macos
+./mac-defaults.sh
 
 # restart to make changes work
 echo "We're going to restart now, insert password :D"
