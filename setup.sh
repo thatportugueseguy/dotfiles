@@ -1,50 +1,43 @@
 #!/bin/bash
-#TODO
-# comando instala brew
-# git clone dos dotfiles para uma certa dir
-# executa comando para nunca desligar monitor
-# brew bundle a apontar para o brewfile
-===> falta meter as epps
-sudo brew cask install \
-  google-chrome \
-  visual-studio-code \
-  iterm2 \
-  firefox \
-  the-unarchiver \
-  docker \
-  docker-toolbox \
-  flux \
-  alfred \
-  apache-couchdb \
-  appcleaner \
-  dash \
-  daisydisk \
-  discord \
-  graphiql \
-  karabiner-elements \
-  microsoft-office \
-  postman \
-  zoomus \
-  skype \
-  skype-for-business \
-  whatsapp \
-  tunnelblick \
-  spotify
-# corre .macos => ja acerta tempos para desligar monitor
+
+# make sure we're in the right folder
+# https://stackoverflow.com/questions/4774054/reliable-way-for-a-bash-script-to-get-the-full-path-to-itself
+SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
+cd $SCRIPTPATH
+
+# install homebrew
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+
+# run brew bundle from the configs dir
+cd configs/brew
+brew bundle
+
+# is it necessary to keep the process running?
+# see mathias's dotfiles
+
+# run macos script
+cd $SCRIPTPATH
 ./.macos
+
 #profile karabiner
-#reinicia computador
-# instala oh-my-zsh, que já altera shell para zsh
-sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-#powerlevel9k install + powerline fonts
+karabinerConfigDir="$HOME/.karabiner"
+if [ -e $karabinerConfigDir ]; then
+	mkdir -p $karabinerConfigDir
+fi
+cp configs/karabiner/karabiner.json "$karabinerConfigDir/karabiner.json"
+
+# link dotfiles
+./link-dotfiles.sh
+
+# restart to make changes work
+shutdown -r now
+
+# powerlevel9k install + powerline fonts
 git clone https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/themes/powerlevel9k
 curl -O https://github.com/powerline/fonts/blob/master/Meslo%20Slashed/Meslo%20LG%20M%20Regular%20for%20Powerline.ttf
-#zsh autosuggestions? 
-git clone git://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions
 
-#linka dotfiles
-npm i -g nativefier
-nativefier messenger.com
+# zsh autosuggestions?
+git clone git://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions
 
 
 #final: echo para verificar:

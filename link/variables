@@ -8,4 +8,3 @@ if [ -f '/Users/ze/Projects/playground/google-cloud-platform/nodejs-docs-samples
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/ze/Projects/playground/google-cloud-platform/nodejs-docs-samples/y/google-cloud-sdk/completion.zsh.inc' ]; then source '/Users/ze/Projects/playground/google-cloud-platform/nodejs-docs-samples/y/google-cloud-sdk/completion.zsh.inc'; fi
-

@@ -118,7 +118,7 @@ nvimFile="$HOME/.config/nvim"
 
 # create neovim dir
 if [ -e $nvimFile ]; then
-	mkdir -p nvimFile
+	mkdir -p $nvimFile
 	print_success "done"
 fi
 
