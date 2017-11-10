@@ -21,7 +21,9 @@ POWERLEVEL9K_PROMPT_ADD_NEWLINE=true
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git, zsh-autosuggestions, zsh-completions, compleat, colored-man-pages, colorize)
-source ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+#brew install location 
+source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # Load the shell dotfiles, and then some:
 # * ~/.path can be used to extend `$PATH`.

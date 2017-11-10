@@ -141,7 +141,7 @@
 [commit]
 
 	# https://help.github.com/articles/signing-commits-using-gpg/
-	gpgsign = true
+	#gpgsign = true
 
 [diff]
 
@@ -199,3 +199,4 @@
 [user]
 	name = jose nogueira
 	email = ze@thatportugueseguy.com
+	signinkey = 1C73A2457EF42401
