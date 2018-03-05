@@ -38,7 +38,16 @@ call plug#begin('~/.config/nvim/plugins')
   Plug 'ianks/vim-tsx'
 
 	" Reason
-	Plug 'reasonml/vim-reason'
+  Plug 'reasonml-editor/vim-reason-plus'
+
+  " Language server
+  Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
+  " (Optional) Multi-entry selection UI.
+  " Plug 'junegunn/fzf'
+  " (testing) Multi-entry selection UI.
+  Plug 'Shougo/denite.nvim'
+  " Showing function signature and inline doc.
+  Plug 'Shougo/echodoc.vim'
 
   " TypeScript
   Plug 'Quramy/tsuquyomi', { 'for': 'typescript' }

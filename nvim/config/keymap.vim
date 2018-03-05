@@ -40,6 +40,11 @@ nnoremap <Leader>o :GFiles<CR>
 map n <Plug>(easymotion-next)
 map N <Plug>(easymotion-prev)
 
+" langserver
+nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
+nnoremap <Leader>d :call LanguageClient_textDocument_definition()<CR>
+nnoremap <Leader>e :call LanguageClient_textDocument_rename()<CR>
+
 " Gif config
 map / <Plug>(easymotion-sn)
 omap / <Plug>(easymotion-tn)

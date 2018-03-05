@@ -4,7 +4,7 @@
 # git add all and commit
 function gac {
 	gaa
-	gcom "$@";
+	gc "$@";
 	gs;
 }
 #git commit - adds branch automatically an no quotes needed
@@ -81,13 +81,38 @@ function checkout {
 # git push force with lease
 function gpf() {
 	local branch=$(git branch | sed -n -e 's/^\* \(.*\)/\1/p');
+	local skipVerify=false
+	if [ $# -gt 0 ] && [ $1 = "-n" ]
+	then
+		skipVerify=true
+		shift
+	fi
+
+	if [ "$skipVerify" = "true" ]
+	then
+	git push --no-verify --force-with-lease "$@" origin ${branch};
+	else
 	git push --force-with-lease "$@" origin ${branch};
+	fi
 }
 #git push normal
 function gpn() {
 	local branch=$(git branch | sed -n -e 's/^\* \(.*\)/\1/p');
+	local skipVerify=false
+	if [ $# -gt 0 ] && [ $1 = "-n" ]
+	then
+		skipVerify=true
+		shift
+	fi
+
+	if [ "$skipVerify" = "true" ]
+	then
+	git push --no-verify "$@" origin ${branch};
+	else
 	git push "$@" origin ${branch};
+	fi
 }
+
 # Create a new directory and enter it
 function mkd() {
 	mkdir -p "$@" && cd "$_";

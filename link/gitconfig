@@ -2,6 +2,7 @@
 
 	# checking out to master happens often enough :)
 	master = checkout master
+  dev = checkout develop
 	# View abbreviated SHA, description, and history graph of the latest 20 commits
 	l = log --pretty=oneline -n 20 --graph --abbrev-commit
 	ll = log -1
@@ -39,8 +40,8 @@
 
 	#trainline formatted new branch
 	new = "! new_ticket() { \
-            git fetch origin master; \
-            git checkout -b $1 origin/master; \
+            git fetch origin develop; \
+            git checkout -b $1 origin/develop; \
             git push --set-upstream origin $1; \
         }; \
         new_ticket"
