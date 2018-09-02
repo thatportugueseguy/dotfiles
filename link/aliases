@@ -16,10 +16,6 @@ if [[ -n $SSH_CONNECTION ]]; then
   export EDITOR='vim'
 fi
 
-#client specific aliases
-alias sc="nr start-client"
-alias ss="nr start-server"
-
 # Just use one editor
 alias nvim="$EDITOR"
 alias vim="$EDITOR"
@@ -63,6 +59,7 @@ alias nr="npm run"
 alias nrb="npm run build"
 alias nrs="npm run start"
 alias start="npm run start"
+alias lscripts="jq .scripts package.json"
 
 # react ecosystem aliases
 alias storybook="nr storybook"
@@ -80,6 +77,7 @@ alias functions="vim ~/.functions && source ~/.functions"
 alias conf="vim ~/.zshrc && source ~/.zshrc"
 alias lgrep="l | grep"
 alias lagrep="la | grep"
+alias ggl="googler --count 5"
 
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then # GNU `ls`

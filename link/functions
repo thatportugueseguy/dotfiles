@@ -1,10 +1,20 @@
 #!/usr/bin/env bash
 
 # GIT ALIASES
+
+# git clone and npm i
+function cai {
+  local gitRepo=$1;
+  # get the last token by splitter / and strip the 4 last chars
+  local repoName=${${gitRepo##*\/}%????};
+
+  git clone $gitRepo $repoName && cd $_ && npm i;
+}
+
 # git add all and commit
 function gac {
 	gaa
-	gc "$@";
+	gcom "$@";
 	gs;
 }
 #git commit - adds branch automatically an no quotes needed
@@ -69,15 +79,6 @@ function chout {
 	fi
 }
 
-#client specific
-function checkout {
-	if [ $1 = "-" ]
-	then
-		git checkout -;
-	else
-		git checkout "$1" && yarn
-	fi
-}
 # git push force with lease
 function gpf() {
 	local branch=$(git branch | sed -n -e 's/^\* \(.*\)/\1/p');
@@ -95,6 +96,7 @@ function gpf() {
 	git push --force-with-lease "$@" origin ${branch};
 	fi
 }
+
 #git push normal
 function gpn() {
 	local branch=$(git branch | sed -n -e 's/^\* \(.*\)/\1/p');
@@ -110,6 +112,16 @@ function gpn() {
 	git push --no-verify "$@" origin ${branch};
 	else
 	git push "$@" origin ${branch};
+	fi
+}
+
+# alias code to code-insiders and default to open current dir if no params
+function code {
+	if [ $1 ]
+	then
+		code-insiders "$@";
+	else
+		code-insiders .;
 	fi
 }
 
@@ -183,12 +195,12 @@ function fs() {
 }
 
 # Use Git’s colored diff when available
-hash git &>/dev/null;
-if [ $? -eq 0 ]; then
-	function diff() {
-		git diff --no-index --color-words "$@";
-	}
-fi;
+#hash git &>/dev/null;
+#if [ $? -eq 0 ]; then
+#	function diff() {
+#		git diff --no-index --color-words "$@";
+#	}
+#fi;
 
 # Create a data URL from a file
 function dataurl() {
