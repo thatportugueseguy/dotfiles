@@ -1,3 +1,6 @@
+[include]
+  path = ~/.gitcredentials
+
 [alias]
 
 	# checking out to master happens often enough :)
@@ -198,7 +201,3 @@
 
 [grep]
   linenumber = true
-[user]
-	name = jose nogueira
-	email = ze@thatportugueseguy.com
-	signinkey = 1C73A2457EF42401
