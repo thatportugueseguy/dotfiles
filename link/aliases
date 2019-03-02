@@ -34,6 +34,7 @@ alias -- -="cd -"
 alias rf="rm -rf"
 alias lgrep="l | grep"
 alias lagrep="la | grep"
+alias aws="/Users/ze/Library/Python/3.7/bin/aws"
 
 #git
 alias g="git"

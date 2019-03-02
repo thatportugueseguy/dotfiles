@@ -41,13 +41,13 @@
 	# Amend the currently staged files to the latest commit
 	amend = commit --amend --reuse-message=HEAD
 
-	#trainline formatted new branch
-	new = "! new_ticket() { \
-            git fetch origin develop; \
-            git checkout -b $1 origin/develop; \
+	# new branch off of master
+	new = "! n() { \
+            git fetch origin master; \
+            git checkout -b $1 origin/master; \
             git push --set-upstream origin $1; \
         }; \
-        new_ticket"
+        n"
 
 	# Credit an author on the latest commit
 	credit = "!f() { git commit --amend --author \"$1 <$2>\" -C HEAD; }; f"
