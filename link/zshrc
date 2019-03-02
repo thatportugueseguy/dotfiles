@@ -113,3 +113,5 @@ alias conf="vim ~/.zshrc && source ~/.zshrc";
 
 # source environment variables
 source ~/.variables
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
