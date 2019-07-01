@@ -17,7 +17,7 @@ if [[ -n $SSH_CONNECTION ]]; then
 fi
 
 # Just use one editor
-alias nvim="$EDITOR"
+# alias nvim="$EDITOR"
 alias vim="$EDITOR"
 alias vi="$EDITOR"
 alias bim="$EDITOR"
@@ -54,6 +54,7 @@ alias gaoops="gaa && goops"
 # went for a longer name just to be sure :D
 alias gdelbranches="git branch | grep -v "master" | xargs git branch -D"
 alias greb="git fetch && git rebase origin/master"
+alias gmp="git master && git pull"
 
 #npm
 alias nr="npm run"

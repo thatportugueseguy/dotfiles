@@ -420,16 +420,18 @@
 	</dict>
 	<key>NSWindow Frame NSFontPanel</key>
 	<string>676 228 445 77 0 0 1440 877 </string>
+	<key>NSWindow Frame SUStatusFrame</key>
+	<string>476 1866 400 129 -603 900 2560 1417 </string>
 	<key>NSWindow Frame SUUpdateAlert</key>
-	<string>367 1668 620 392 -603 900 2560 1417 </string>
+	<string>410 363 620 392 0 0 1440 877 </string>
 	<key>NSWindow Frame SessionsPreferences</key>
 	<string>-334 1026 606 469 -603 900 2560 1440 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>469 602 918 394 0 0 1920 1080 </string>
+	<string>269 392 918 452 0 0 1440 877 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>0 0 1810 1053 0 0 1440 900 </string>
+	<string>1 -1 1440 877 0 0 1440 877 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
-	<string>-254 900 1810 1053 -254 900 1920 1057 </string>
+	<string>723 0 714 877 0 0 1440 877 </string>
 	<key>New Bookmarks</key>
 	<array>
 		<dict>
@@ -1179,6 +1181,8 @@
 			<string></string>
 			<key>Silence Bell</key>
 			<false/>
+			<key>Space</key>
+			<integer>0</integer>
 			<key>Sync Title</key>
 			<false/>
 			<key>Tags</key>
@@ -1202,7 +1206,7 @@
 			<key>Visual Bell</key>
 			<true/>
 			<key>Window Type</key>
-			<integer>0</integer>
+			<integer>12</integer>
 			<key>Working Directory</key>
 			<string>/Users/ze</string>
 		</dict>
@@ -1802,6 +1806,8 @@
 			<string>/Users/ze</string>
 		</dict>
 	</array>
+	<key>NoSyncHaveRequestedFullDiskAccess</key>
+	<true/>
 	<key>NoSyncHaveWarnedAboutPasteConfirmationChange</key>
 	<true/>
 	<key>NoSyncInstallationId</key>
@@ -1856,8 +1862,10 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2018-09-11T14:36:07Z</date>
+	<date>2019-04-29T16:21:01Z</date>
 	<key>SUSendProfileInfo</key>
+	<false/>
+	<key>Secure Input</key>
 	<false/>
 	<key>ShowPaneTitles</key>
 	<false/>
@@ -1868,7 +1876,7 @@
 	<key>findMode_iTerm</key>
 	<integer>0</integer>
 	<key>iTerm Version</key>
-	<string>3.2.0</string>
+	<string>3.2.8</string>
 	<key>kCPKSelectionViewPreferredModeKey</key>
 	<integer>0</integer>
 	<key>kCPKSelectionViewShowHSBTextFieldsKey</key>

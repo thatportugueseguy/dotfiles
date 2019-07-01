@@ -6,6 +6,7 @@
 nb () {
   local branchName=$1
   git new "${branchName/ze\//}"
+  code
 }
 # open PR - https://github.com/caarlos0/zsh-open-pr/blob/master/git-open-pr.sh
 _get_git_repo() {
@@ -52,7 +53,7 @@ function cai {
   # get the last token by splitter / and strip the 4 last chars
   local repoName=${${gitRepo##*\/}%????};
 
-  git clone $gitRepo $repoName && cd $_ && npm i;
+  git clone $gitRepo $repoName && cd $_ && npm i && code;
 }
 
 # git add all and commit
