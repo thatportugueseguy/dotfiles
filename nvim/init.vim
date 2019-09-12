@@ -12,6 +12,7 @@ call plug#begin('~/.config/nvim/plugins')
   Plug 'sts10/vim-zipper'
   Plug 'roman/golden-ratio'
 	Plug 'Yggdroot/indentLine'
+  Plug 'jordwalke/vim-taste'
 
   " Navigation
   Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -38,16 +39,21 @@ call plug#begin('~/.config/nvim/plugins')
   Plug 'ianks/vim-tsx'
 
 	" Reason
-  Plug 'reasonml-editor/vim-reason-plus'
+  " Plug 'reasonml-editor/vim-reason-plus'
+  Plug 'jordwalke/vim-reasonml', { 'rev': 'WIP', 'on_ft': ['reason', 'ocaml'] }
+  Plug 'lifepillar/vim-mucomplete'
 
   " Language server
   Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
   " (Optional) Multi-entry selection UI.
   " Plug 'junegunn/fzf'
   " (testing) Multi-entry selection UI.
-  Plug 'Shougo/denite.nvim'
+  " Plug 'Shougo/denite.nvim'
   " Showing function signature and inline doc.
-  Plug 'Shougo/echodoc.vim'
+  " Plug 'Shougo/echodoc.vim'
+
+  " Ocaml
+  Plug 'rgrinberg/vim-ocaml', { 'on_ft': ['ocaml', 'opam', 'dune'] }
 
   " TypeScript
   Plug 'Quramy/tsuquyomi', { 'for': 'typescript' }
@@ -56,8 +62,8 @@ call plug#begin('~/.config/nvim/plugins')
   Plug 'ekalinin/Dockerfile.vim'
   Plug 'haskell.vim', { 'for': 'haskell' }
   Plug 'elixir-lang/vim-elixir'
-  Plug 'rhysd/vim-crystal'
   Plug 'keith/swift.vim'
+  Plug 'vim-syntastic/syntastic'
 
   " Motions
   Plug 'Lokaltog/vim-easymotion'
@@ -65,7 +71,7 @@ call plug#begin('~/.config/nvim/plugins')
   Plug 'bronson/vim-visual-star-search'
 
   " Linting
-  Plug 'w0rp/ale'
+  " Plug 'w0rp/ale' // conflicts with syntastic
 
   " Completion
   Plug 'ervandew/supertab'
@@ -84,6 +90,10 @@ for f in split(glob('~/.config/nvim/config/*.vim'), '\n')
 endfor
 
 autocmd BufNewFile,BufRead *.tsx set filetype=typescript.tsx
+
+" Add merlin support
+let g:opamshare = substitute(system('opam config var share'),'\n$','','''')
+execute "set rtp+=" . g:opamshare . "/merlin/vim"
 
 " Local config
 if filereadable($HOME . "/.vimrc.local")
