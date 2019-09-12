@@ -10,9 +10,9 @@ export PATH=$HOME/projects/google-cloud-sdk/bin:$PATH
 export PATH=/Users/ze/Library/Python/3.6/bin:$PATH
 
 # pyenv
-export PATH="/Users/ze/.pyenv/bin:$PATH"
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
+# export PATH="/Users/ze/.pyenv/bin:$PATH"
+# eval "$(pyenv init -)"
+# eval "$(pyenv virtualenv-init -)"
 
 # Path to python 2.7 binaries. let's hope we don't break python 3 :D
 export PATH="$HOME/Library/Python/2.7/bin:$PATH"
