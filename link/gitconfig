@@ -2,12 +2,12 @@
   path = ~/.gitcredentials
 
 [alias]
-
-	# checking out to master happens often enough :)
+	# checking out to master and develop happens often enough :)
 	master = checkout master
+	develop = checkout develop
   dev = checkout develop
 	# View abbreviated SHA, description, and history graph of the latest 20 commits
-	l = log --pretty=oneline -n 20 --graph --abbrev-commit
+  l = log --pretty=oneline -n 20 --graph --abbrev-commit
 	ll = log -1
 	g = grep
   ll = log -1
@@ -38,6 +38,9 @@
 	branches = branch -a
 	remotes = remote -v
 
+  # Make all tags signed
+  tag = tag -s
+
 	# Amend the currently staged files to the latest commit
 	amend = commit --amend --reuse-message=HEAD
 
@@ -45,6 +48,14 @@
 	new = "! n() { \
             git fetch origin master; \
             git checkout -b $1 origin/master; \
+            git push --set-upstream origin $1; \
+        }; \
+        n"
+
+	# new branch off of develop
+	nb = "! n() { \
+            git fetch origin develop; \
+            git checkout -b $1 origin/develop; \
             git push --set-upstream origin $1; \
         }; \
         n"
@@ -145,13 +156,14 @@
 
 [commit]
 
-	# https://help.github.com/articles/signing-commits-using-gpg/
-	#gpgsign = true
+	gpgsign = true
 
 [diff]
 
 	# Detect copies as well as renames
 	renames = copies
+	renameLimit = 8000
+	colorMoved = default
 
 [diff "bin"]
 
@@ -201,3 +213,20 @@
 
 [grep]
   linenumber = true
+
+[gpg]
+	program = /usr/local/bin/gpg
+
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path =
+
+[mergetool "sourcetree"]
+	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true

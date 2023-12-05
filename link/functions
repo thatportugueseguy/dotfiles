@@ -1,13 +1,41 @@
 #!/usr/bin/env bash
 
-# GIT ALIASES
+# fff file explorer
+f() {
+    fff "$@"
+    cd "$(cat "${XDG_CACHE_HOME:=${HOME}/.cache}/fff/.fff_d")"
+}
 
+# Tmux attach
+tat() {
+  session_name="$(basename "$PWD" | tr . -)"
+
+  session_exists() {
+    tmux list-sessions | sed -E 's/:.*$//' | grep -q "^$session_name$"
+  }
+
+  not_in_tmux() {
+    [ -z "$TMUX" ]
+  }
+
+  if not_in_tmux; then
+    tmux new-session -As "$session_name"
+  else
+    if ! session_exists; then
+      (TMUX='' tmux new-session -Ad -s "$session_name")
+    fi
+    tmux switch-client -t "$session_name"
+  fi
+}
+
+# GIT ALIASES
 # new branch
 nb () {
   local branchName=$1
   git new "${branchName/ze\//}"
   code
 }
+
 # open PR - https://github.com/caarlos0/zsh-open-pr/blob/master/git-open-pr.sh
 _get_git_repo() {
   echo "$1" | sed -e "s/.git$//" -e "s/.*github.com[:/]\(.*\)/\1/"
@@ -20,8 +48,8 @@ _build_github_pr_url() {
   origin="$(git config --get remote.origin.url)"
   branch="$(git symbolic-ref --short HEAD)"
   repo="$(_get_git_repo "$origin")"
-  pr_url="https://github.com/$repo/pull/new"
-  target="$1"
+  pr_url="$repo/pull/new"
+  target="develop"
   # test -z "$target" && target=$(git for-each-ref --format='%(upstream:short)' "$(git symbolic-ref -q HEAD)" | cut -d '/' -f 2)
   test -z "$target" && target="master"
   if [ -z "$upstream" ]; then
@@ -62,8 +90,9 @@ function gac {
 	gcom "$@";
 	gs;
 }
+
 #git commit - adds branch automatically an no quotes needed
-function gc {
+function gcaa {
 	local branch="[$(git branch | sed -n -e 's/^\* \(.*\)/\1/p')]";
 	if [ $branch = "[master]" ]
 	then
@@ -78,6 +107,17 @@ function gc {
 	fi
 
 	local commitMsg="$@";
+	local commitMsgLen=${#commitMsg};
+
+	if [ $commitMsgLen -ge 50 ]; then
+		read -p "Commit message longer than 50 char. Continue? [y/n]" -n 1 -r
+		echo    # (optional) move to a new line
+		if [[ ! $REPLY =~ ^[Yy]$ ]]
+		then
+			echo "Stopping commit. Exiting." ;
+			exit 1;
+		fi
+	fi
 
 	if [ "$skipVerify" = "true" ]
 	then
@@ -112,8 +152,9 @@ function goops {
 	git commit -a --amend;
 	gs;
 }
+
 #git checkout into branch. if the branch exists checkout without -b, otherwise, create it
-function chout {
+function gco {
 	if [ $1 = "-" ]
 	then
 		git checkout -;
@@ -160,30 +201,9 @@ function gpn() {
 	fi
 }
 
-# alias code to code-insiders and default to open current dir if no params
-function code {
-	if [ $1 ]
-	then
-		code-insiders "$@";
-	else
-		code-insiders .;
-	fi
-}
-
 # Create a new directory and enter it
 function mkd() {
 	mkdir -p "$@" && cd "$_";
-}
-
-#npm specific
-function nbin() {
-	if [ -d ./node_modules/.bin ]; then
-		local app="$1"
-		shift
-		(exec "./node_modules/.bin/${app}" "$@")
-	else
-		echo "Err: Not in node.js project folder.";
-	fi;
 }
 
 # OCAML Atdgen
@@ -193,11 +213,6 @@ function genatd () {
   atdgen -j "${file}";
   dune build @fmt --auto-promote;
   clear;
-}
-
-# Change working directory to the top-most Finder window location
-function cdf() { # short for `cdfinder`
-	cd "$(osascript -e 'tell app "Finder" to POSIX path of (insertion location as alias)')";
 }
 
 # Create a .tar.gz archive, using `zopfli`, `pigz` or `gzip` for compression
@@ -248,23 +263,6 @@ function fs() {
 	fi;
 }
 
-# Use Git’s colored diff when available
-#hash git &>/dev/null;
-#if [ $? -eq 0 ]; then
-#	function diff() {
-#		git diff --no-index --color-words "$@";
-#	}
-#fi;
-
-# Create a data URL from a file
-function dataurl() {
-	local mimeType=$(file -b --mime-type "$1");
-	if [[ $mimeType == text/* ]]; then
-		mimeType="${mimeType};charset=utf-8";
-	fi
-	echo "data:${mimeType};base64,$(openssl base64 -in "$1" | tr -d '\n')";
-}
-
 # Start an HTTP server from a directory, optionally specifying the port
 function server() {
 	local port="${1:-8000}";
@@ -283,91 +281,6 @@ function gz() {
 	printf "gzip: %d bytes (%2.2f%%)\n" "$gzipsize" "$ratio";
 }
 
-# Syntax-highlight JSON strings or files
-# Usage: `json '{"foo":42}'` or `echo '{"foo":42}' | json`
-function json() {
-	if [ -t 0 ]; then # argument
-		python -mjson.tool <<< "$*" | pygmentize -l javascript;
-	else # pipe
-		python -mjson.tool | pygmentize -l javascript;
-	fi;
-}
-
-# Run `dig` and display the most useful info
-function digga() {
-	dig +nocmd "$1" any +multiline +noall +answer;
-}
-
-# UTF-8-encode a string of Unicode symbols
-function escape() {
-	printf "\\\x%s" $(printf "$@" | xxd -p -c1 -u);
-	# print a newline unless we’re piping the output to another program
-	if [ -t 1 ]; then
-		echo ""; # newline
-	fi;
-}
-
-# Decode \x{ABCD}-style Unicode escape sequences
-function unidecode() {
-	perl -e "binmode(STDOUT, ':utf8'); print \"$@\"";
-	# print a newline unless we’re piping the output to another program
-	if [ -t 1 ]; then
-		echo ""; # newline
-	fi;
-}
-
-# Get a character’s Unicode code point
-function codepoint() {
-	perl -e "use utf8; print sprintf('U+%04X', ord(\"$@\"))";
-	# print a newline unless we’re piping the output to another program
-	if [ -t 1 ]; then
-		echo ""; # newline
-	fi;
-}
-
-# Show all the names (CNs and SANs) listed in the SSL certificate
-# for a given domain
-function getcertnames() {
-	if [ -z "${1}" ]; then
-		echo "ERROR: No domain specified.";
-		return 1;
-	fi;
-
-	local domain="${1}";
-	echo "Testing ${domain}…";
-	echo ""; # newline
-
-	local tmp=$(echo -e "GET / HTTP/1.0\nEOT" \
-		| openssl s_client -connect "${domain}:443" -servername "${domain}" 2>&1);
-
-	if [[ "${tmp}" = *"-----BEGIN CERTIFICATE-----"* ]]; then
-		local certText=$(echo "${tmp}" \
-			| openssl x509 -text -certopt "no_aux, no_header, no_issuer, no_pubkey, \
-			no_serial, no_sigdump, no_signame, no_validity, no_version");
-		echo "Common Name:";
-		echo ""; # newline
-		echo "${certText}" | grep "Subject:" | sed -e "s/^.*CN=//" | sed -e "s/\/emailAddress=.*//";
-		echo ""; # newline
-		echo "Subject Alternative Name(s):";
-		echo ""; # newline
-		echo "${certText}" | grep -A 1 "Subject Alternative Name:" \
-			| sed -e "2s/DNS://g" -e "s/ //g" | tr "," "\n" | tail -n +2;
-		return 0;
-	else
-		echo "ERROR: Certificate not found.";
-		return 1;
-	fi;
-}
-
-# `v` with no arguments opens the current directory in Vim, otherwise opens the
-# given location
-function v() {
-	if [ $# -eq 0 ]; then
-		vim .;
-	else
-		vim "$@";
-	fi;
-}
 
 # `o` with no arguments opens the current directory, otherwise opens the given
 # location

@@ -9,6 +9,11 @@ else
   export VISUAL="vi"
 fi
 
+# alias febox="ssh febox"
+alias febox="ssh nspawn"
+alias nspawn="ssh nspawn"
+alias sandbox="ssh sandbox"
+
 export EDITOR="$VISUAL"
 
 # Preferred editor for local and remote sessions
@@ -32,29 +37,32 @@ alias -- -="cd -"
 
 #utilities
 alias rf="rm -rf"
-alias lgrep="l | grep"
+alias lgrep="l | grep -i"
 alias lagrep="la | grep"
-alias aws="/Users/ze/Library/Python/3.7/bin/aws"
+alias gpg-start="gpgconf --launch gpg-agent"
+alias lzd='lazydocker'
+
+#docker
+#alias rmdockcontainers="docker rm `docker ps -aq`"
+#alias rmdockimages="docker rmi `docker images -a -q`"
 
 #git
+alias pulldev="g dev && g pull origin develop && gco -"
 alias g="git"
 alias gg="git grep -i"
 alias gs="g s"
 alias ga="g add"
-alias greb="g fetch && g rebase origin/master"
 alias gaa="g add -A"
 alias gaoops="gaa && goops"
 alias gap="g add -p"
 alias gp="g pull";
-alias co="checkout"
 alias gco="g checkout"
 alias gconf="vim ~/.gitconfig"
 alias gn="g new"
-alias gaoops="gaa && goops"
-# went for a longer name just to be sure :D
-alias gdelbranches="git branch | grep -v "master" | xargs git branch -D"
+alias gdelbranches="git branch --merged | egrep -v \"(^\*|master|dev)\""
 alias greb="git fetch && git rebase origin/master"
 alias gmp="git master && git pull"
+alias gfiles="gs | awk '{ print \$2 }'"
 
 #npm
 alias nr="npm run"
@@ -63,23 +71,12 @@ alias nrs="npm run start"
 alias start="npm run start"
 alias lscripts="jq .scripts package.json"
 
-# react ecosystem aliases
-alias storybook="nr storybook"
-alias storybook-native="nr storybook-native"
-alias lerna-hard-clean="echo \"y\" | npx lerna clean && rf node_modules && yarn"
-
 # Shortcuts
-alias p="cd ~/projects"
-alias h="history"
-alias h="history"
-alias nrs="npm start"
 alias aliases="vim ~/.aliases && source ~/.aliases"
 alias gitconf="vim ~/.gitconfig"
+alias tmuxconf="vim ~/.tmux.conf && tmux source-file ~/.tmux.conf"
 alias functions="vim ~/.functions && source ~/.functions"
 alias conf="vim ~/.zshrc && source ~/.zshrc"
-alias lgrep="l | grep"
-alias lagrep="la | grep"
-alias ggl="googler --count 5"
 
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then # GNU `ls`
@@ -106,9 +103,6 @@ alias egrep='egrep --color=auto'
 # Enable aliases to be sudo’ed
 alias sudo='sudo '
 
-# Get macOS Software Updates, and update installed Ruby gems, Homebrew, npm, and their installed packages
-alias update='sudo softwareupdate -i -a; brew update; brew upgrade; brew cleanup; npm install npm -g; npm update -g; sudo gem update --system; sudo gem update; sudo gem cleanup'
-
 # IP addresses
 alias ip="ipconfig getifaddr en0"
 alias ips="ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\(\(\([0-9]\+\.\)\{3\}[0-9]\+\)\|[a-fA-F0-9:]\+\)' | awk '{ sub(/inet6? (addr:)? ?/, \"\"); print }'"
@@ -118,16 +112,6 @@ alias ifactive="ifconfig | pcregrep -M -o '^[^\t:]+:([^\n]|\n\t)*status: active'
 
 # Flush Directory Service cache
 alias flush="dscacheutil -flushcache && killall -HUP mDNSResponder"
-
-# Clean up LaunchServices to remove duplicates in the “Open With” menu
-alias lscleanup="/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user && killall Finder"
-
-# View HTTP traffic
-alias sniff="sudo ngrep -d 'en1' -t '^(GET|POST) ' 'tcp and port 80'"
-alias httpdump="sudo tcpdump -i en0 -n -s 0 -w - | grep -a -o -E \"Host\: .*|GET \/.*\""
-
-# Canonical hex dump; some systems have this symlinked
-command -v hd > /dev/null || alias hd="hexdump -C"
 
 # macOS has no `md5sum`, so use `md5` as a fallback
 command -v md5sum > /dev/null || alias md5sum="md5"
@@ -141,31 +125,8 @@ alias c="tr -d '\n' | pbcopy"
 # Recursively delete `.DS_Store` files
 alias cleanup="find . -type f -name '*.DS_Store' -ls -delete"
 
-# Show/hide hidden files in Finder
-alias show="defaults write com.apple.finder AppleShowAllFiles -bool true && killall Finder"
-alias hide="defaults write com.apple.finder AppleShowAllFiles -bool false && killall Finder"
-
-# Hide/show all desktop icons (useful when presenting)
-alias hidedesktop="defaults write com.apple.finder CreateDesktop -bool false && killall Finder"
-alias showdesktop="defaults write com.apple.finder CreateDesktop -bool true && killall Finder"
-
 # URL-encode strings
 alias urlencode='python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);"'
-
-# Merge PDF files
-# Usage: `mergepdf -o output.pdf input{1,2,3}.pdf`
-alias mergepdf='/System/Library/Automator/Combine\ PDF\ Pages.action/Contents/Resources/join.py'
-
-# Disable Spotlight
-alias spotoff="sudo mdutil -a -i off"
-# Enable Spotlight
-alias spoton="sudo mdutil -a -i on"
-
-# PlistBuddy alias, because sometimes `defaults` just doesn’t cut it
-alias plistbuddy="/usr/libexec/PlistBuddy"
-
-# Airport CLI alias
-alias airport='/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport'
 
 # Intuitive map function
 # For example, to list all directories that contain a certain file:
@@ -176,23 +137,6 @@ alias map="xargs -n1"
 for method in GET HEAD POST PUT DELETE TRACE OPTIONS; do
 	alias "$method"="lwp-request -m '$method'"
 done
-
-# Make Grunt print stack traces by default
-command -v grunt > /dev/null && alias grunt="grunt --stack"
-
-# Stuff I never really use but cannot delete either because of http://xkcd.com/530/
-alias stfu="osascript -e 'set volume output muted true'"
-alias pumpitup="osascript -e 'set volume output volume 100'"
-
-# Kill all the tabs in Chrome to free up memory
-# [C] explained: http://www.commandlinefu.com/commands/view/402/exclude-grep-from-your-grepped-output-of-ps-alias-included-in-description
-alias chromekill="ps ux | grep '[C]hrome Helper --type=renderer' | grep -v extension-process | tr -s ' ' | cut -d ' ' -f2 | xargs kill"
-
-# Lock the screen (when going AFK)
-alias afk="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
-
-# Reload the shell (i.e. invoke as a login shell)
-alias reload="exec $SHELL -l"
 
 # Print each PATH entry on a separate line
 alias path='echo -e ${PATH//:/\\n}'

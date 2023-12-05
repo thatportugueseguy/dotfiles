@@ -1,0 +1,78 @@
+unbind C-b
+unbind C-s
+set -g prefix C-s
+bind-key -r C-s send-prefix
+bind-key ';' command-prompt # change command-prompt key, no need for pressing shift
+
+# 1-based pane and window indexes
+set -g base-index 1
+set -g renumber-windows on
+
+# rebind choose-tree
+bind-key j 'choose-tree -Zw'
+
+# Use 256 colors
+set-option -g default-terminal "screen-256color"
+
+# reload conf
+bind-key r source-file ~/.tmux.conf \; display-message "~/.tmux.conf reloaded"
+
+# Smart pane switching with awareness of Vim splits.
+# See: https://github.com/christoomey/vim-tmux-navigator
+is_vim="ps -o state= -o comm= -t '#{pane_tty}' \
+    | grep -iqE '^[^TXZ ]+ +(\\S+\\/)?g?(view|n?vim?x?)(diff)?$'"
+bind-key -n 'C-h' if-shell "$is_vim" 'send-keys C-h'  'select-pane -L'
+bind-key -n 'C-j' if-shell "$is_vim" 'send-keys C-j'  'select-pane -D'
+bind-key -n 'C-k' if-shell "$is_vim" 'send-keys C-k'  'select-pane -U'
+bind-key -n 'C-l' if-shell "$is_vim" 'send-keys C-l'  'select-pane -R'
+tmux_version='$(tmux -V | sed -En "s/^tmux ([0-9]+(.[0-9]+)?).*/\1/p")'
+if-shell -b '[ "$(echo "$tmux_version < 3.0" | bc)" = 1 ]' \
+    "bind-key -n 'C-\\' if-shell \"$is_vim\" 'send-keys C-\\'  'select-pane -l'"
+if-shell -b '[ "$(echo "$tmux_version >= 3.0" | bc)" = 1 ]' \
+    "bind-key -n 'C-\\' if-shell \"$is_vim\" 'send-keys C-\\\\'  'select-pane -l'"
+bind C-l send-keys 'C-l'
+
+# Copy mode pane navigation. Let's use it when we're used to it
+# bind-key -T copy-mode-vi 'C-h' select-pane -L
+# bind-key -T copy-mode-vi 'C-j' select-pane -D
+# bind-key -T copy-mode-vi 'C-k' select-pane -U
+# bind-key -T copy-mode-vi 'C-l' select-pane -R
+# bind-key -T copy-mode-vi 'C-\' select-pane -l
+
+# Pane resize
+bind -n S-Left resize-pane -L 2
+bind -n S-Right resize-pane -R 2
+bind -n S-Down resize-pane -D 1
+bind -n S-Up resize-pane -U 1
+
+# allows for a more natural interface in tmux command line
+set-option -g status-keys "emacs"
+
+# status bar customization
+set-option -g status-left-length 50
+set-option -g status-bg '#666666'
+set-option -g status-fg '#aaaaaa'
+
+# faster repeat
+set-option -g repeat-time 0
+
+# Escape is slow by default, remove delay
+set -s escape-time 0
+
+# scrolling
+set-option -g mouse on
+
+# save history
+set -g history-limit 5000
+
+# new panes, keep current path
+bind-key , split-window -v  -c '#{pane_current_path}'
+bind-key . split-window -h  -c '#{pane_current_path}'
+
+# new window, keep current path
+bind c new-window -c "#{pane_current_path}"
+
+# break pane into a new window.
+bind-key b break-pane # Add -d option to detach to the background
+
+
